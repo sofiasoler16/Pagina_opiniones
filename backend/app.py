@@ -1,13 +1,17 @@
 from flask import Flask
-from main import create_app
+from main import create_app, db
 import os
 
 
 app = create_app()
 
-@app.route('/')
-def home():
-    return '¡Bienvenido a Opiniones de Comida!'
+app.app_context().push()
+
+@app.route("/ping")
+def ping():
+    return "Servidor funcionando"
+
 
 if __name__ == '__main__':
-    app.run(debug=True, port=os.getenv('PORT'))
+    db.create_all()
+    app.run(debug=True, host="0.0.0.0", port=int(os.getenv('PORT')))

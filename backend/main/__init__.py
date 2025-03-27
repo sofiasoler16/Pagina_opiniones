@@ -6,6 +6,7 @@ from flask_jwt_extended import JWTManager
 from flask_mail import Mail
 
 
+
 import os
 
 from config import Config
@@ -19,21 +20,30 @@ def create_app():
     load_dotenv()
     app = Flask(__name__)
 
+    if not os.path.exists(os.getenv('DATABASE_PATH')+os.getenv('DATABASE_NAME')):
+        os.mknod(os.getenv('DATABASE_PATH')+os.getenv('DATABASE_NAME'))
 
-    app.config.from_object('Config')
+    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + \
+        os.getenv('DATABASE_PATH')+os.getenv('DATABASE_NAME')
 
+    # app.config.from_object(Config)
 
     db.init_app(app)
 
-    import main.resources as resources
+    from main.routes import initialize_routes
+    initialize_routes(api)
 
     api.init_app(app)
 
     
-    jwt.init_app(app)
+    jwt.init_app(app)    
+
 
 
     mail.init_app(app)
+
+
 
 
 
