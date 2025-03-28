@@ -14,4 +14,5 @@ class TipoComidaResources(Resource):
         tipo = TipoComida(nombre=data["nombre"])
         db.session.add(tipo)
         db.session.commit()
-        return {"id": tipo.id, "nombre": tipo.nombre}, 201
+        return {"id": tipo.id,
+                 "nombre": tipo.nombre}, 201

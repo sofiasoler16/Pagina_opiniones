@@ -5,7 +5,7 @@ from .. import db
 class Platos(db.Model):
     __tablename__ = 'platos'
 
-    id_plato = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True)
     nombre = db.Column(db.String(100), nullable=False)
     precio = db.Column(db.Integer, nullable=False)
     restaurante_id = db.Column(db.Integer, db.ForeignKey("restaurantes.id"), nullable=False)
